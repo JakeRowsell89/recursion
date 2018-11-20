@@ -16,10 +16,10 @@ the repeated application of a recursive procedure or definition.
 ```
 
 See what it did there? It used the word `recursive` to describe what `recursion` is.
-A more useful definition can be found in the (Wikipedia article)[https://en.wikipedia.org/wiki/Recursion]:
+A more useful definition can be found in the [Wikipedia article](https://en.wikipedia.org/wiki/Recursion):
 "... a function being defined is applied within its own definition."
 
-Recursion is an approach that tries to break a problem down into small pieces and solve those. Generally it encourages _pure functions_ and works well with Linked Lists and Trees. 
+Recursion is an approach that tries to break a problem down into small pieces and solve those.
 
 Many problems can be solved with or without recursion. Let's take a function for summing the contents of an array. Most people are familiar with using loops or other means of iteration to sum up an array like this:
 ```
@@ -36,7 +36,12 @@ Let's look what we've done here. We take an array of `numbers`, set a `total` to
 
 How can do this recursively? Well, instead of dealing with the whole problem we can return a fairly simple expression: "return <first number> + sum(<remaining numbers>)". Instead of adding all the numbers in our function, we add the current number to the sum of our total. Let's write that out in code.
 
-In recursion you call your own function, you generally start with a _base case_. The base case is a condition that ensures your function stops recursively calling itself. For arrays generally a good place to start is the case of receiving an empty array. I'd argue the sum of an empty list is 0, so that seems like a sensible return value.
+There are three rules to produce a working recursive function:
+1. A recursive algorithm must have a base case.
+2. A recursive algorithm must change its state and move toward the base case.
+3. A recursive algorithm must call itself, recursively.
+
+The base case is a condition that ensures your function stops recursively calling itself. For arrays generally a good place to start is the case of receiving an empty array. I'd argue the sum of an empty list is 0, so that seems like a sensible return value.
 
 Next onto the actual recursion, we take the first number of the list and add it to the _sum of the rest of the numbers_: 
 
@@ -143,6 +148,56 @@ function sum(numbers) {
 Where Recursion Shines
 ===
 
+What is the benefit of taking this approach over something more familiar? A recursive approach is beneficial when a problem can be broken down into smaller problems. A frequently cited example is depth-first tree traversal, so lets try to write a function to check if a binary tree `contains` a certain value.
+
+```javascript
+// Lets assume each node in the tree has the following structure, where left/right can contain references to other nodes
+const node = {
+  value: null,
+  left: null,
+  right: null
+}
+
+const tree = node // A tree is really the same as a node and the branches on the left and right
+
+function contains(x, tree) {
+  if (tree === null) {
+    return false // base-case
+  } else {
+    return tree.value === x || contains(x, tree.left) || contains(x, tree.right)
+  }
+}
+```
+
+Pretty neat right? If the tree is null the tree doesn't contain x, so we return false. Otherwise we return the expression "current node value is x OR it's contained in the left subtree OR its contained in the right subtree". Sure, tree traversal _can_ be done iteratively but it's definitely not as clean as this. What's also nice is that we can quite easily change the _order of traversal_. This implementation is _pre-order_, but we could easily tweak it to be _pre-order_ or _post-order_. The name of the order means when the root of a tree is evaluated in comparison to left and right.
+
+```
+Single node perspective:
+  X     In-order (Left, Root, Right): Y -> X -> Z
+ / \    Pre-order (Root, Left, Right): X -> Y -> Z
+Y   Z   Post-order (Left, Right, Root): Z -> Y -> X
+
+Multi node perspective:
+      A
+     / \
+    B   C
+   /
+  X     In-order: Y -> X -> Z -> B -> A -> C
+ / \    Pre-order: A -> B -> X -> Y -> Z -> C
+Y   Z   Post-order: Y -> Z -> X -> B -> C -> A
+
+Returning in a specific order:
+In-order: contains(x, tree.left) || tree.value === x || contains(x, tree.right)
+Pre-order: tree.value === x || contains(x, tree.left) || contains(x, tree.right)
+Post-order: contains(x, tree.left) || contains(x, tree.right) || tree.value === x
+```
+
+Hopefully that was understandable and you have some appreciation for the simplicity of it. 
+Additionally thinking about the problem from a different perspective brings you closer to the problem. Knowing alternative approaches to solving a problem allows you to recognise patterns you would overlook.
+Lastly recursive functions are generally _pure functions*_ which come with several benefits beyond the scope of this document. 
+
+_* pure functions are functions in a mathematical sense, their output is a direct result of input and they don't result in any observable changes besides returning a value_
+
 Recursion: A Double Edged Sword
 ===
 
@@ -150,11 +205,11 @@ If you are familiar with how the call stack works in <your favourite language>, 
 `RangeError: Maximum call stack size exceeded`
 
 One way to circumvent this problem on a language level is by Tail Call Optimization. 
-_"If the last thing a function does before it returns is call itself, rather than doing a jump-and-add-stack-frame immediately followed by a pop-stack-frame-and-return-to-caller, it should be safe to simply jump to the start of the second function, letting it re-use the first functions stack frame."_ ~ Loosely paraphrased from (this interesting read)[http://wiki.c2.com/?TailCallOptimization]
+_"If the last thing a function does before it returns is call itself, rather than doing a jump-and-add-stack-frame immediately followed by a pop-stack-frame-and-return-to-caller, it should be safe to simply jump to the start of the second function, letting it re-use the first functions stack frame."_ ~ Loosely paraphrased from [this interesting read](http://wiki.c2.com/?TailCallOptimization)
 
 In other words, under the hood it gets around the problem by solving it similarly to how a loop would be run rather than how accumulative function calls would be.
 
-Execises:
+Exercises:
 ===
 
 Does recursion seem like an obvious/easy way to do things? Maybe not, but hopefully you will at least have found it interesting. Why not try writing one of the following Array methods recursively?
