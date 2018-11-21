@@ -169,7 +169,7 @@ function contains(x, tree) {
 }
 ```
 
-Pretty neat right? If the tree is null the tree doesn't contain x, so we return false. Otherwise we return the expression "current node value is x OR it's contained in the left subtree OR its contained in the right subtree". Sure, tree traversal _can_ be done iteratively but it's definitely not as clean as this. What's also nice is that we can quite easily change the _order of traversal_. This implementation is _pre-order_, but we could easily tweak it to be _pre-order_ or _post-order_. The name of the order means when the root of a tree is evaluated in comparison to left and right.
+Pretty neat right? If the tree is null the tree doesn't contain x, so we return false. Otherwise we return the expression "current node value is x OR it's contained in the left subtree OR its contained in the right subtree". Sure, tree traversal _can_ be done iteratively but it's definitely not as clean as this. What's also nice is that we can quite easily change the _order of traversal_. This implementation is _pre-order_, but we could easily tweak it to be _in-order_ or _post-order_. The naming is derived from when the root of a tree is evaluated in comparison to its left and right sub-trees.
 
 ```
 Single node perspective:
@@ -192,8 +192,8 @@ Pre-order: tree.value === x || contains(x, tree.left) || contains(x, tree.right)
 Post-order: contains(x, tree.left) || contains(x, tree.right) || tree.value === x
 ```
 
-Hopefully that was understandable and you have some appreciation for the simplicity of it. 
-Additionally thinking about the problem from a different perspective brings you closer to the problem. Knowing alternative approaches to solving a problem allows you to recognise patterns you would overlook.
+Hopefully you can appreciate the elegance of that solution! 
+Additionally thinking about the problem from a different perspective brings you closer to the problem. Knowing alternative approaches to solving problems allows you to recognize patterns you would otherwise overlook.
 Lastly recursive functions are generally _pure functions*_ which come with several benefits beyond the scope of this document. 
 
 _* pure functions are functions in a mathematical sense, their output is a direct result of input and they don't result in any observable changes besides returning a value_
