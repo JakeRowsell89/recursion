@@ -65,4 +65,27 @@ describe('recursive functions:', () => {
       expect(recursive.reverse(arrayWithX)).toEqual(arrayWithX.reverse())
     })
   })
+  
+  describe('filter', () => {
+    const isPositive = (x) => x > 0
+    const positiveNumbers = [1,2,3]
+    const negativeNumbers = [-1,-2,-3]
+
+    test('Base case: Should return undefined when filtering in an empty array', () => {
+      expect(recursive.filter(isPositive, emptyArray)).toEqual(emptyArray)
+    })
+
+    test('Should return the same array if every element matches the predicate', () => {
+      expect(recursive.filter(isPositive, positiveNumbers)).toEqual(positiveNumbers)
+    })
+
+    test('Should return only the elements matching the predicate', () => {
+      expect(recursive.filter(isPositive, [...negativeNumbers, ...positiveNumbers])).toEqual(positiveNumbers)
+    })
+
+    test('Should return an empty array when no elements match the predicate', () => {
+      const array = [1,2,3,4,x]
+      expect(recursive.filter(isPositive, negativeNumbers)).toEqual(emptyArray)
+    })
+  })
 })

@@ -1,8 +1,4 @@
 function find(x, list) {
-  
-}
-
-function filter(x, list) {
 
 }
 
@@ -14,9 +10,13 @@ function reverse(list) {
 
 }
 
+function filter(predicate, list) {
+
+}
+
 module.exports = {
-  filter,
   indexOf,
   find,
   reverse,
+  filter,
 }
