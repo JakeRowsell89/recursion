@@ -1,0 +1,22 @@
+{
+  "name": "recursion",
+  "version": "1.0.0",
+  "description": "Recursion ===",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakeRowsell89/recursion.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakeRowsell89/recursion/issues"
+  },
+  "homepage": "https://github.com/JakeRowsell89/recursion#readme",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
