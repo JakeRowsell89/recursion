@@ -22,7 +22,7 @@ A more useful definition can be found in the [Wikipedia article](https://en.wiki
 Recursion is an approach that tries to break a problem down into small pieces and solve those.
 
 Many problems can be solved with or without recursion. Let's take a function for summing the contents of an array. Most people are familiar with using loops or other means of iteration to sum up an array like this:
-```
+```javascript
 function sum(numbers) {
   let total = 0
   for (const n of numbers) {
@@ -79,7 +79,7 @@ function unique(numbers, uniqueNumbers = []) {
     return uniqueNumbers
   } else {
     if (uniqueNumbers.indexOf(head) === -1) {
-      uniqueNumbers.push(head)
+      return unique(tail, uniqueNumbers.concat(head))
     }
     return unique(tail, uniqueNumbers)
   }
@@ -112,6 +112,7 @@ const addFromUnevenIndex = (list) => {
 }
 
 // somehow I have an array that was made by collapsing a bunch of arrays of length 2
+
 const array = [1, {total: 10}, 5, {total: 20}, 2, {total: 50}]
 addFromEvenIndex(array)
 ```
@@ -136,11 +137,19 @@ In this function we have our base case that says "if the current list is empty, 
 For comparison, in our previous `sum` function the result of the recursive call is still used as an operand on the `+` operator. `+` needs the results of the expressions on both sides to be able to resolve itself to a total. As such it is not tail recursive:
 ```javascript
 function sum(numbers) {
-  if (list.length === 0) {
+  if (numbers.length === 0) {
     return 0
   } else {
-    // not tail recursive, + needs a values on both sides before being able to resolve itself to a value
+    // not tail recursive, it needs the values both sides of + to evaluate the expression
     return numbers[0] + sum(numbers.slice(1)) 
+  }
+}
+function sum(numbers, total = 0) {
+  if (numbers.length === 0) {
+    return total
+  } else {
+    // tail recursive, the last call is to sum
+    return sum(numbers.slice(1), total + numbers[0]) 
   }
 }
 ```
@@ -158,7 +167,9 @@ const node = {
   right: null
 }
 
-const tree = node // A tree is really the same as a node and the branches on the left and right
+const left = { ...node, value: 1 }
+const right = { ...node, value: 1 }
+const tree = { ...node, left, right } // A tree is really the same as a node and the branches on the left and right
 
 function contains(x, tree) {
   if (tree === null) {
@@ -215,6 +226,5 @@ Exercises:
 Does recursion seem like an obvious/easy way to do things? Maybe not, but hopefully you will at least have found it interesting. Why not try writing one of the following Array methods recursively?
 - Array.filter
 - Array.find
-- Array.sort
 - Array.reverse
 - Array.indexOf
